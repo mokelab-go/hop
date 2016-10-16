@@ -9,6 +9,7 @@ type contextKey string
 const (
 	keyPathParams  contextKey = "hop.pathparams"
 	keyPathInt                = "hop.path.int."
+	keyPathString             = "hop.path.str."
 	keyContentType contextKey = "hop.content-type"
 	keyCredential  contextKey = "hop.credential"
 	keyBodyJSON    contextKey = "hop.body.json"
@@ -37,6 +38,19 @@ func PathInt(c context.Context, key string) int {
 		return v
 	}
 	return 0
+}
+
+func setPathString(c context.Context, key, value string) context.Context {
+	return context.WithValue(c, contextKey(keyPathString+key), value)
+}
+
+// PathString returns path parameter as int value. If value is not string,
+// returns "" instread.
+func PathString(c context.Context, key string) string {
+	if v, ok := c.Value(contextKey(keyPathString + key)).(string); ok {
+		return v
+	}
+	return ""
 }
 
 func setContentType(c context.Context, contentType string) context.Context {
