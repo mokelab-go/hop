@@ -48,6 +48,21 @@ func GetPathInt(name string) func(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// GetPathString returns Operator. this handler gets Path parameter as string value
+func GetPathString(name string) func(next http.HandlerFunc) http.HandlerFunc {
+	return func(next http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+			c := r.Context()
+			params := PathParams(c)
+
+			val := params[name]
+
+			c = setPathString(c, name, val)
+			next(w, r.WithContext(c))
+		}
+	}
+}
+
 // GetBodyAsJSON returns handler, this handler decodes request body as JSON
 // format.
 func GetBodyAsJSON(next http.HandlerFunc) http.HandlerFunc {
