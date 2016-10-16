@@ -9,7 +9,7 @@ type contextKey string
 const (
 	keyPathParams  contextKey = "hop.pathparams"
 	keyPathInt                = "hop.path.int."
-	keyPathString             = "hop.path.int."
+	keyPathString             = "hop.path.str."
 	keyContentType contextKey = "hop.content-type"
 	keyCredential  contextKey = "hop.credential"
 	keyBodyJSON    contextKey = "hop.body.json"
