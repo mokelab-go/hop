@@ -10,6 +10,7 @@ const (
 	keyPathParams  contextKey = "hop.pathparams"
 	keyPathInt                = "hop.path.int."
 	keyContentType contextKey = "hop.content-type"
+	keyCredential  contextKey = "hop.credential"
 	keyBodyJSON    contextKey = "hop.body.json"
 )
 
@@ -48,6 +49,18 @@ func ContentType(c context.Context) string {
 		return v
 	}
 	return ""
+}
+
+func setCredential(c context.Context, cred Cred) context.Context {
+	return context.WithValue(c, keyCredential, cred)
+}
+
+// Credential returns TokenType and Token
+func Credential(c context.Context) Cred {
+	if v, ok := c.Value(keyCredential).(Cred); ok {
+		return v
+	}
+	return Cred{}
 }
 
 func setBodyJSON(c context.Context, body map[string]interface{}) context.Context {
