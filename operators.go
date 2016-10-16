@@ -9,7 +9,8 @@ import (
 	"strings"
 )
 
-func getPathParams(next http.HandlerFunc) http.HandlerFunc {
+// GetPathParams returns handler. This handler gets path params.
+func GetPathParams(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		params := mux.Vars(r)
 		c := setPathParams(r.Context(), params)
