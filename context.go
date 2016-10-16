@@ -2,6 +2,7 @@ package hop
 
 import (
 	"context"
+	"strconv"
 )
 
 type contextKey string
@@ -34,10 +35,12 @@ func setPathInt(c context.Context, key string, value int) context.Context {
 // PathInt returns path parameter as int value. If value is not int,
 // returns 0 instread.
 func PathInt(c context.Context, key string) int {
-	if v, ok := c.Value(contextKey(keyPathInt + key)).(int); ok {
-		return v
+	valStr := PathString(c, key)
+	val, err := strconv.Atoi(valStr)
+	if err != nil {
+		return 0
 	}
-	return 0
+	return val
 }
 
 func setPathString(c context.Context, key, value string) context.Context {
@@ -47,7 +50,8 @@ func setPathString(c context.Context, key, value string) context.Context {
 // PathString returns path parameter as int value. If value is not string,
 // returns "" instread.
 func PathString(c context.Context, key string) string {
-	if v, ok := c.Value(contextKey(keyPathString + key)).(string); ok {
+	params := PathParams(c)
+	if v, ok := params[key]; ok {
 		return v
 	}
 	return ""
